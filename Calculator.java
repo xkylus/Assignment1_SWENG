@@ -11,20 +11,59 @@ public class Calculator
 		while(!exit)
 		{
 			System.out.println("Please Enter a Mathematical Expression :D");
-			String input = userInput.next();
+			String input = userInput.nextLine();
+			String in = input.replaceAll("\\s+", "");
 			
-			if(input.equalsIgnoreCase("Exit"))
+			if(in.equalsIgnoreCase("Exit"))
 			{
 				exit = true;
 			}
 			else
 			{
-				int answer = calculate(input);
-				System.out.println("The Answer is: " + answer);
+				char[] array = in.toCharArray();
+				
+				if(isValidExpression(array) == false)
+				{
+					System.out.println("ERROR - not a valid expression >:(\n");
+				}
+				else
+				{
+					int answer = calculate(in);
+					System.out.println("The Answer is: " + answer);
+				}
 			}
 		}
-		System.out.println("Closing Calcultor :(");
+		System.out.println("Shutting down calcultor :(");
 		userInput.close();
+	}
+
+	private static boolean isValidExpression(char[] inputArray)
+	{
+		boolean bool = true;
+		
+		for(int i = 0; i < inputArray.length; i++)
+		{
+			if(!Character.isDigit(inputArray[i]) && !isOperator(inputArray[i]))
+			{
+				bool = false;
+				break;
+			}
+			else if(isOperator(inputArray[i]) && isOperator(inputArray[i + 1]))
+			{
+				bool = false;
+				break;
+			}	
+		}
+		return bool;
+	}
+	
+	private static boolean isOperator(char character) 
+	{
+		if(character == '+' || character == '-' || character == '*')
+		{
+			return true;
+		}
+		else return false;
 	}
 
 	public static int calculate(String equation)
@@ -119,5 +158,4 @@ public class Calculator
 		}
 		else return 2;
 	}
-
 }
