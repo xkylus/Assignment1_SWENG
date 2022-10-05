@@ -5,11 +5,25 @@ public class Calculator
 {
 	public static void main(String[] args)
 	{
-		System.out.println("Please Enter a Mathematical Expression :D");
-
 		Scanner userInput = new Scanner(System.in);
-		int answer = calculate(userInput.nextLine());
-		System.out.println("The Answer is: " + answer);
+		boolean exit = false;
+		
+		while(!exit)
+		{
+			System.out.println("Please Enter a Mathematical Expression :D");
+			String input = userInput.next();
+			
+			if(input.equalsIgnoreCase("Exit"))
+			{
+				exit = true;
+			}
+			else
+			{
+				int answer = calculate(input);
+				System.out.println("The Answer is: " + answer);
+			}
+		}
+		System.out.println("Closing Calcultor :(");
 		userInput.close();
 	}
 
@@ -17,7 +31,7 @@ public class Calculator
 	{
 		Stack<Integer> numberStack = new Stack<>();
 		Stack<Character> operatorStack = new Stack<>();
-		
+
 		char[] characterArray = equation.toCharArray();
 
 		for(int i = 0; i < characterArray.length; i++)
@@ -48,7 +62,7 @@ public class Calculator
 			}
 			else if((characterArray[i]) == '+' ||(characterArray[i]) == '-' || (characterArray[i]) == '*')
 			{
-				while((operatorStack.isEmpty() == false))
+				while((operatorStack.isEmpty() == false) && (opPrecedence(characterArray[i])<= opPrecedence(operatorStack.peek())))
 				{
 					int solution = 0;
 					int numOne = numberStack.pop();
@@ -96,4 +110,14 @@ public class Calculator
 		}
 		return numberStack.pop();
 	}
+
+	private static int opPrecedence(char arrayChar)
+	{
+		if(arrayChar == '+' || arrayChar == '-')
+		{
+			return 1;
+		}
+		else return 2;
+	}
+
 }
