@@ -8,6 +8,7 @@ public class Calculator
 		Scanner userInput = new Scanner(System.in);
 		boolean exit = false;
 		
+		// while loop to keep calculator working until prompted to stop by typing exit
 		while(!exit)
 		{
 			System.out.println("Please Enter a Mathematical Expression :D");
@@ -34,6 +35,13 @@ public class Calculator
 		userInput.close();
 	}
 
+	/**
+	 * isValidFunction which checks if the inputted string from a user is valid
+	 * 
+	 * @param String input (user input expression)
+	 * @return true if the input string is a valid mathematical expression
+	 * 		   else return false if input string is invalid.
+	 */
 	public static boolean isValidExpression(String input)
 	{
 		boolean bool = true;
@@ -66,6 +74,14 @@ public class Calculator
 		return bool;
 	}
 	
+	/**
+	 * isOperator function which checks a character in a character array to see if it is
+	 * either '+', '-', or '*'
+	 * 
+	 * @param char character
+	 * @return return true if character is either '+', '-', '*'
+	 * 	       else return false;
+	 */
 	public static boolean isOperator(char character) 
 	{
 		if(character == '+' || character == '-' || character == '*')
@@ -75,6 +91,12 @@ public class Calculator
 		else return false;
 	}
 
+	/**
+	 * calculate function which calculates the answer to the inputted expression
+	 * 
+	 * @param String equation
+	 * @return an integer (the answer to the user input expression)
+	 */
 	public static int calculate(String equation)
 	{
 		Stack<Integer> numberStack = new Stack<>();
@@ -160,13 +182,21 @@ public class Calculator
 		return numberStack.pop();
 	}
 
-	public static int opPrecedence(char arrayChar)
+	/**
+	 * opPrecendence function checks the precedence of an operator
+	 * 
+	 * @param char ch 
+	 * @return 1 if ch == '+' or '-'
+	 *         else return 2 if ch '*'
+	 *         else return 0
+	 */
+	public static int opPrecedence(char ch)
 	{
-		if(arrayChar == '+' || arrayChar == '-')
+		if(ch == '+' || ch == '-')
 		{
 			return 1;
 		}
-		else if(arrayChar == '*')
+		else if(ch == '*')
 		{
 			return 2;
 		}
