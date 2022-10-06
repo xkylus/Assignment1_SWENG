@@ -12,23 +12,20 @@ public class Calculator
 		{
 			System.out.println("Please Enter a Mathematical Expression :D");
 			String input = userInput.nextLine();
-			String in = input.replaceAll("\\s+", "");
 			
-			if(in.equalsIgnoreCase("Exit"))
+			if(input.equalsIgnoreCase("Exit"))
 			{
 				exit = true;
 			}
 			else
-			{
-				char[] array = in.toCharArray();
-				
-				if(isValidExpression(array) == false)
+			{	
+				if(isValidExpression(input) == false)
 				{
 					System.out.println("ERROR - not a valid expression >:(\n");
 				}
 				else
 				{
-					int answer = calculate(in);
+					int answer = calculate(input);
 					System.out.println("The Answer is: " + answer);
 				}
 			}
@@ -37,9 +34,21 @@ public class Calculator
 		userInput.close();
 	}
 
-	private static boolean isValidExpression(char[] inputArray)
+	public static boolean isValidExpression(String input)
 	{
 		boolean bool = true;
+		
+		String in = input.replaceAll("\\s+", "");
+		char[] inputArray = in.toCharArray();
+		
+		if(isOperator(inputArray[0]) == true)
+		{
+			return bool = false;
+		}
+		else if(isOperator(inputArray[inputArray.length - 1]) == true)
+		{
+			return bool = false;
+		}
 		
 		for(int i = 0; i < inputArray.length; i++)
 		{
@@ -57,7 +66,7 @@ public class Calculator
 		return bool;
 	}
 	
-	private static boolean isOperator(char character) 
+	public static boolean isOperator(char character) 
 	{
 		if(character == '+' || character == '-' || character == '*')
 		{
@@ -71,7 +80,8 @@ public class Calculator
 		Stack<Integer> numberStack = new Stack<>();
 		Stack<Character> operatorStack = new Stack<>();
 
-		char[] characterArray = equation.toCharArray();
+		String in = equation.replaceAll("\\s+", "");
+		char[] characterArray = in.toCharArray();
 
 		for(int i = 0; i < characterArray.length; i++)
 		{
@@ -150,12 +160,16 @@ public class Calculator
 		return numberStack.pop();
 	}
 
-	private static int opPrecedence(char arrayChar)
+	public static int opPrecedence(char arrayChar)
 	{
 		if(arrayChar == '+' || arrayChar == '-')
 		{
 			return 1;
 		}
-		else return 2;
+		else if(arrayChar == '*')
+		{
+			return 2;
+		}
+		else return 0;
 	}
 }
